@@ -5,18 +5,18 @@
 	],
 	"441": // tf2 content
 	[
-		"regex:.+?\\.(vdf|kv3|txt|cfg|lst|db|jpg|png|gif|inf|gi|fgd|lua|json|js|html)",
+		"regex:.+?\\.(vdf|kv3|txt|cfg|lst|db|jpg|png|gif|inf|gi|fgd|lua|json|js|ts|html)",
 		"regex:.+?_dir\\.vpk",
 	],
 	"373301": // dota 2 content
 	[
-		"regex:.+?\\.(vdf|kv3|txt|cfg|lst|db|jpg|png|gif|inf|gi|fgd|lua|json|js|html|vcfg|gameevents)",
+		"regex:.+?\\.(vdf|kv3|txt|cfg|lst|db|jpg|png|gif|inf|gi|fgd|lua|json|js|ts|html|vcfg|gameevents)",
 		"regex:.+?asset_info\\.bin",
 		"regex:.+?_dir\\.vpk",
 	],
 	"381450": // dota 2 workshop
 	[
-		"regex:.+?\\.(vdf|kv3|txt|cfg|lst|db|jpg|png|gif|inf|gi|fgd|lua|json|js|html|dll|exe)",
+		"regex:.+?\\.(vdf|kv3|txt|cfg|lst|db|jpg|png|gif|inf|gi|fgd|lua|json|js|ts|html|dll|exe)",
 		"regex:.+?asset_info\\.bin",
 	],
 	"373306": // dota 2 linux
@@ -39,7 +39,7 @@
 	"546561": // hlvr content
 	[
 		"regex:.+?\\.dll",
-		"regex:.+?\\.(vdf|kv3|txt|cfg|lst|db|jpg|png|gif|inf|gi|fgd|lua|json|vcfg|js|html)"
+		"regex:.+?\\.(vdf|kv3|txt|cfg|lst|db|jpg|png|gif|inf|gi|fgd|lua|json|vcfg|js|ts|html)"
 	],
 	"546563": // hlvr windows
 	[
@@ -47,7 +47,7 @@
 	],
 	"1295040": // hlvr workshop
 	[
-		"regex:.+?\\.(vdf|kv3|txt|cfg|lst|db|jpg|png|gif|inf|gi|fgd|lua|json|js|html|dll)",
+		"regex:.+?\\.(vdf|kv3|txt|cfg|lst|db|jpg|png|gif|inf|gi|fgd|lua|json|js|ts|html|dll)",
 		"regex:.+?asset_info\\.bin",
 	],
 	"221": // hl2 content
@@ -100,21 +100,21 @@
 	],
 	"250824": // steamvr content
 	[
-		"regex:.+?\\.(vdf|kv3|txt|cfg|lst|db|jpg|png|gif|svg|inf|gi|fgd|lua|json|js|css|html|vrdrivermanifest|vrfirmware|vrmanifest|vrresources|vrsettings)"
+		"regex:.+?\\.(vdf|kv3|txt|cfg|lst|db|jpg|png|gif|svg|inf|gi|fgd|lua|json|js|ts|css|html|vrdrivermanifest|vrfirmware|vrmanifest|vrresources|vrsettings)"
 	],
 	"250827": // steamvr content 2
 	[
-		"regex:.+?\\.(vdf|kv3|txt|cfg|lst|db|jpg|png|gif|inf|gi|fgd|lua|json|js|html)"
+		"regex:.+?\\.(vdf|kv3|txt|cfg|lst|db|jpg|png|gif|inf|gi|fgd|lua|json|js|ts|html)"
 	],
 	"250830": // steamvr environments content
 	[
-		"regex:.+?\\.(vdf|kv3|txt|cfg|lst|db|jpg|png|gif|inf|gi|fgd|lua|json|js|html)",
+		"regex:.+?\\.(vdf|kv3|txt|cfg|lst|db|jpg|png|gif|inf|gi|fgd|lua|json|js|ts|html)",
 		"regex:.+?asset_info\\.bin",
 		"regex:.+?_dir\\.vpk",
 	],
 	"250833": // steamvr environments tools
 	[
-		"regex:.+?\\.(vdf|kv3|txt|cfg|lst|db|jpg|png|gif|inf|gi|fgd|lua|json|js|html)",
+		"regex:.+?\\.(vdf|kv3|txt|cfg|lst|db|jpg|png|gif|inf|gi|fgd|lua|json|js|ts|html)",
 		"regex:.+?asset_info\\.bin",
 	],
 	"250821": // steamvr windows
@@ -153,7 +153,7 @@
 	],
 	"2347779": // cs2 workshop
 	[
-		"regex:.+?\\.(vdf|kv3|txt|cfg|lst|db|jpg|png|gif|inf|gi|fgd|lua|json|js|html|dll|exe)",
+		"regex:.+?\\.(vdf|kv3|txt|cfg|lst|db|jpg|png|gif|inf|gi|fgd|lua|json|js|ts|html|dll|exe)",
 		"regex:.+?asset_info\\.bin",
 	],
 	"1422452": // deadlock windows
