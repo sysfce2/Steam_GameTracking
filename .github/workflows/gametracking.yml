@@ -22,6 +22,10 @@ on:
                 required: false
                 type: boolean
                 default: false
+            dumpsource2-schema-json:
+                required: false
+                type: string
+                default: ''
         secrets:
             STEAM_USERNAME:
                 required: true
@@ -129,10 +133,12 @@ jobs:
 
         - name: Set commit status
           if: always() && steps.before.outputs.sha
+          id: set-status
           working-directory: ${{ github.workspace }}/tracked_game
           shell: bash
           run: |
             NEW_SHA=$(git rev-parse HEAD)
+            echo "sha=$NEW_SHA" >> $GITHUB_OUTPUT
 
             if [[ "$NEW_SHA" == "${{ steps.before.outputs.sha }}" ]]; then
               echo "No new commit was pushed, skipping status"
@@ -152,6 +158,25 @@ jobs:
               -f context="GameTracking"
           env:
             GH_TOKEN: ${{ github.token }}
+
+        - name: Checkout DumpSource2 JSON Repo
+          if: ${{ inputs.dumpsource2-schema-json != '' }}
+          uses: actions/checkout@v6
+          with:
+            fetch-depth: 1
+            path: dumps2_json
+            repository: 'ValveResourceFormat/SchemaExplorer'
+            token: ${{ secrets.DUMPSOURCE2_EXPLORER_TOKEN }}
+
+        - name: Push DumpSource2 JSON
+          if: ${{ inputs.dumpsource2-schema-json != '' }}
+          working-directory: ${{ github.workspace }}/dumps2_json/schemas
+          shell: bash
+          run: |
+            "${{ github.workspace }}/tools/push_schema_json.sh" \
+              "${{ inputs.dumpsource2-schema-json }}" \
+              "${{ github.workspace }}/tracked_game" \
+              "https://github.com/${{ github.repository }}/commit/${{ steps.set-status.outputs.sha }}"
 
         - name: Dispatch sync to ValveProtobufs
           if: ${{ env.GH_TOKEN != '' }}
