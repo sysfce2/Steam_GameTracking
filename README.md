@@ -15,7 +15,17 @@ When a game update is detected, the game repository's workflow calls the reusabl
 
 SteamFileDownloader is a lightweight depot downloader that downloads files normally, but for pak01 VPKs it only downloads the chunks actually needed to export the requested file extensions.
 
-### Shared tooling
+### Tools
+
+Built by [`tools/build.sh`](/tools/build.sh). When a commit is pushed to this repository, CI builds the tools and uploads them to GitHub Releases. Game repositories download the pre-built tools from there.
+
+Some tools live directly in this repo, others are included as submodules. Tools do not self-update. When a submodule tool is modified, its reference in this repository must be updated manually by running `git submodule update --remote` and pushing the result.
+
+### Manually re-running a game update
+
+Each game repository's update workflow can be triggered manually via [workflow dispatch](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/manually-run-a-workflow) in the GitHub UI. This is useful for re-processing a game update after fixing a tool. Note that the reusable workflow (`gametracking.yml`) in this repository is only called by game repos, it does not run directly here.
+
+### Shared scripts
 
 - [`common.sh`](/common.sh) - common functions for dumping protobufs, processing VPKs, fixing encodings, and creating commits.
 - [`tools/build.sh`](/tools/build.sh) - builds the required tools (available as submodules). Requires .NET, Go, and CMake.
