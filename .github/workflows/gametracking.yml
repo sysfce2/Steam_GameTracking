@@ -160,7 +160,7 @@ jobs:
             GH_TOKEN: ${{ github.token }}
 
         - name: Checkout DumpSource2 JSON Repo
-          if: ${{ inputs.dumpsource2-schema-json != '' }}
+          if: ${{ inputs.dumpsource2-schema-json != '' && github.ref_name == github.event.repository.default_branch }}
           uses: actions/checkout@v6
           with:
             fetch-depth: 1
@@ -169,7 +169,7 @@ jobs:
             token: ${{ secrets.DUMPSOURCE2_EXPLORER_TOKEN }}
 
         - name: Push DumpSource2 JSON
-          if: ${{ inputs.dumpsource2-schema-json != '' }}
+          if: ${{ inputs.dumpsource2-schema-json != '' && github.ref_name == github.event.repository.default_branch }}
           working-directory: ${{ github.workspace }}/dumps2_json/schemas
           shell: bash
           run: |
@@ -179,7 +179,7 @@ jobs:
               "https://github.com/${{ github.repository }}/commit/${{ steps.set-status.outputs.sha }}"
 
         - name: Dispatch sync to ValveProtobufs
-          if: ${{ env.GH_TOKEN != '' }}
+          if: ${{ env.GH_TOKEN != '' && github.ref_name == github.event.repository.default_branch }}
           run: gh api repos/SteamTracking/Protobufs/dispatches -f event_type=sync
           env:
                 GH_TOKEN: ${{ secrets.DISPATCH_TOKEN }}
