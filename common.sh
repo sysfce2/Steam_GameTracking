@@ -49,6 +49,7 @@ _ProcessBinary ()
 {
 	local file="$1"
 	local ext="$2"
+	local proto_tmp_dir="$3"
 
 	# Skip common not game-specific binaries
 	local name
@@ -59,8 +60,10 @@ _ProcessBinary ()
 
 	echo " $file"
 
-	# Extract protobuf definitions from the binary
-	"$PROTOBUF_DUMPER_PATH" "$file" "Protobufs/" > /dev/null
+	# Extract protobuf definitions from the binary into an isolated temp directory
+	local my_tmp
+	my_tmp="$(mktemp -d -p "$proto_tmp_dir")"
+	"$PROTOBUF_DUMPER_PATH" "$file" "$my_tmp/" > /dev/null
 
 	# Extract readable strings from the binary, sort and deduplicate them
 	"$DUMP_STRINGS_PATH" -binary "$file" | sort --unique > "$(_StringsPath "$file" "$ext")"
@@ -75,6 +78,9 @@ ProcessDepot ()
 #	rm -r "Protobufs"
 	mkdir -p "Protobufs"
 
+	local proto_tmp_dir
+	proto_tmp_dir="$(mktemp -d)"
+
 	local max_jobs=10
 	local job_count=0
 
@@ -82,7 +88,7 @@ ProcessDepot ()
 		# Find all files matching the given extension and process each one
 		while IFS= read -r -d '' file
 		do
-			_ProcessBinary "$file" "$ext" &
+			_ProcessBinary "$file" "$ext" "$proto_tmp_dir" &
 
 			((++job_count))
 			if ((job_count >= max_jobs)); then
@@ -93,6 +99,12 @@ ProcessDepot ()
 	done
 
 	wait
+
+	# Merge all isolated protobuf outputs into the final directory
+	for tmpdir in "$proto_tmp_dir"/*/; do
+		[ -d "$tmpdir" ] && cp -rf "$tmpdir"/* Protobufs/ 2>/dev/null || true
+	done
+	rm -rf "$proto_tmp_dir"
 
 	echo "::endgroup::"
 }
