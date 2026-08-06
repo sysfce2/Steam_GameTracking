@@ -14,7 +14,7 @@ SOURCE_DIR="$2"
 COMMIT_URL="$3"
 
 NEW_JSON="$SOURCE_DIR/DumpSource2/schemas.json"
-EXISTING_GZ="$SCHEMA_NAME.json.gz"
+EXISTING_JSON="$SCHEMA_NAME.json"
 
 # strip_metadata - Strips revision, version_date, and version_time fields from schema JSON.
 #   Reads from a file argument or stdin. Output is sorted and compact for consistent comparison.
@@ -22,8 +22,8 @@ strip_metadata() {
 	jq --sort-keys --compact-output 'del(.revision, .version_date, .version_time)' "$@"
 }
 
-if [[ -f "$EXISTING_GZ" ]]; then
-	OLD_STRIPPED=$(gzip --decompress --stdout "$EXISTING_GZ" | strip_metadata)
+if [[ -f "$EXISTING_JSON" ]]; then
+	OLD_STRIPPED=$(strip_metadata "$EXISTING_JSON")
 	NEW_STRIPPED=$(strip_metadata "$NEW_JSON")
 
 	if [[ "$NEW_STRIPPED" == "$OLD_STRIPPED" ]]; then
@@ -35,8 +35,7 @@ fi
 REVISION=$(jq --raw-output '.revision' "$NEW_JSON")
 
 mv "$NEW_JSON" "$SCHEMA_NAME.json"
-gzip --force --best --no-name "$SCHEMA_NAME.json"
-git add "$SCHEMA_NAME.json.gz"
+git add "$SCHEMA_NAME.json"
 git commit -m "Update $SCHEMA_NAME schema (revision $REVISION)" -m "$COMMIT_URL"
 
 # Retry push in case another game updated the repo concurrently
