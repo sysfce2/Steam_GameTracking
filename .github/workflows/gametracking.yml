@@ -26,6 +26,10 @@ on:
                 required: false
                 type: string
                 default: ''
+            dispatch-source2wiki:
+                required: false
+                type: boolean
+                default: false
         secrets:
             STEAM_USERNAME:
                 required: true
@@ -183,3 +187,10 @@ jobs:
           run: gh api repos/SteamTracking/Protobufs/dispatches -f event_type=sync
           env:
                 GH_TOKEN: ${{ secrets.DISPATCH_TOKEN }}
+
+        - name: Dispatch app-update to Source2Wiki
+          if: ${{ inputs.dispatch-source2wiki && env.GH_TOKEN != '' && github.ref_name == github.event.repository.default_branch && steps.before.outputs.sha != steps.set-status.outputs.sha }}
+          run: gh api repos/Source2Wiki/Source2Wiki/dispatches -f event_type=app-update -F "client_payload[owner]={owner}" -F "client_payload[repo]={repo}"
+          env:
+                GH_TOKEN: ${{ secrets.DISPATCH_TOKEN_SOURCE2WIKI }}
+
